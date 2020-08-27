@@ -1,41 +1,53 @@
+
+use serenity::client::Context;
 use serenity::prelude::*;
 use serenity::model::prelude::*;
-use serenity::Client;
+use serenity::model::*;
+use tokio_core::reactor::Handle;
+use std::collections::HashMap;
+use serenity::framework::Framework;
 
-use serenity::{
-    model::{channel::Message, gateway::Ready, guild::Member},
-    model::id::{GuildId, RoleId, UserId},
-    prelude::*,
-};
+
+
+
+
 
 const MOD_ROLE: RoleId = RoleId(692794426413547530);
+const GUILD_ID: GuildId = GuildId(692401689323503637);
+
+
+
+struct MyFramework{
+    commands: HashMap<String, Box<Fn(Message, Vec<String>)>>,
+}
+
+
+impl Framework for MyFramework {
+    fn dispatch(&mut self, _: Context, msg: Message, tokio_handle: &Handle){
+        let args = msg.content.split_whitespace();
+        let command = match args.advance() {
+            Some(command) => {
+                if !command.starts_with('~') {return;}
+            },
+            None => return,
+        };
+        let command = match self.commands.get(&command){
+            Some(command) => command, None => return,
+        };
+        tokio_handle.spawn_fn(move || {(command)(msg,args); Ok() });
+    }
+
+}
 
 struct Handler;
 
-impl Handler {
-    fn GetRole(&self, ctx: &Context, member: &Member) -> bool{
-        if member.user.read().bot{return false};
-        let access = member.roles.iter().any(|role| role.0==MOD_ROLE);
-
-    }
-
-
-
-
-
-
-}
-
-
-
 
 impl EventHandler for Handler {
-    fn message(&self, context: Context, msg: Message) {
-        if msg.content == "!ping" {
-            let _ = msg.channel_id.say(&context, "Pong!");
-        }
-    }
 }
+
+
+
+use serenity::Client;
 
 
 fn main(){
