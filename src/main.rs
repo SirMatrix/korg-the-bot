@@ -1,4 +1,8 @@
 mod events;
+mod commands;
+
+use commands::GENERAL_GROUP;
+
 use events::Handler;
 
 use serenity::{
@@ -11,23 +15,7 @@ use serenity::{
 
 
 
-#[command]
-async fn about(ctx: &Context, msg: &Message) -> CommandResult {
-    msg.channel_id.say(&ctx.http, "My name is Korg. I am a bot made  by Sir Matrix in rust for polling and other needs!").await?;
 
-    Ok(())
-}
-
-#[command]
-async fn ping(ctx: &Context, msg: &Message) -> CommandResult {
-    msg.channel_id.say(&ctx.http, "pong!").await?;
-
-    Ok(())
-}
-
-#[group]
-#[commands(about, ping)]
-struct General;
 
 
 #[tokio::main]
