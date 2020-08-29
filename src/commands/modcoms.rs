@@ -10,6 +10,6 @@ use serenity::{
 
 
 #[group]
-#[commands(poll)]
+#[commands]
 struct Modcoms;
 

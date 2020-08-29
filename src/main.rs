@@ -2,7 +2,7 @@ mod events;
 mod commands;
 
 use commands::GENERAL_GROUP;
-use commands::MODCOMS_GROUP;
+//use commands::MODCOMS_GROUP;
 
 
 use events::Handler;
@@ -24,8 +24,8 @@ use serenity::{
 async fn main() {
     let framework = StandardFramework::new()
         .configure(|c| c.prefix("!"))
-        .group(&GENERAL_GROUP)
-        .group(MODCOMS_GROUP);
+        .group(&GENERAL_GROUP);
+        //.group(MODCOMS_GROUP);
 
 
     // Create a new instance of the Client, logging in as a bot. This will
