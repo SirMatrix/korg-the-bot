@@ -15,11 +15,6 @@ use serenity::{
 };
 
 
-
-
-
-
-
 #[tokio::main]
 async fn main() {
     let framework = StandardFramework::new()
