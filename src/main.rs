@@ -8,11 +8,13 @@ use commands::GENERAL_GROUP;
 use events::Handler;
 
 use serenity::{
-    model::{channel::Message, gateway::Ready},
+    model::{channel::Message, gateway::Ready, gateway::Activity},
     prelude::*,
     framework::standard::macros::{command, group},
     framework::standard::{StandardFramework, CommandResult},
 };
+
+
 
 
 #[tokio::main]
@@ -32,6 +34,7 @@ async fn main() {
         .framework(framework)
         .await
         .expect("Err creating client");
+
 
     // Finally, start a single shard, and start listening to events.
     //
