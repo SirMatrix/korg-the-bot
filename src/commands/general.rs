@@ -8,7 +8,7 @@ framework::standard::{StandardFramework, CommandResult,Args},
 };
 use serenity::model::guild::Target::Emoji;
 use serenity::model::channel::{Reaction, ReactionType};
-use serenity::model::channel::ReactionType::Custom;
+use serenity::model::channel::ReactionType::{Custom, Unicode};
 
 
 const  Guildname: GuildId = GuildId(692401689323503637);
@@ -37,6 +37,7 @@ async fn ping(ctx: &Context, msg: &Message) -> CommandResult {
 #[command]
 async fn poll( ctx: &Context, msg: &Message, mut args: Args) -> CommandResult {
 
+
     let title = args.single::<String>();
     let choice1 = args.single::<String>();
     let choice2 = args.single::<String>();
@@ -50,17 +51,20 @@ async fn poll( ctx: &Context, msg: &Message, mut args: Args) -> CommandResult {
                 if args.len() == 2 {
                     e.title(title.unwrap());
                     e.field(":regional_indicator_a:", choice1.unwrap(), false);
+
                 }
                 else if args.len() == 3 {
                     e.title(title.unwrap());
                     e.field(":regional_indicator_a:", choice1.unwrap(), false);
                     e.field(":regional_indicator_b:", choice2.unwrap(), false);
 
+
                 }else if  args.len() == 4 {
                     e.title(title.unwrap());
                     e.field(":regional_indicator_a:", choice1.unwrap(), false);
                     e.field(":regional_indicator_b:", choice2.unwrap(), false);
                     e.field(":regional_indicator_c:", choice3.unwrap(), false);
+
 
                 }else if args.len() == 5{
                     e.title(title.unwrap());
@@ -73,13 +77,26 @@ async fn poll( ctx: &Context, msg: &Message, mut args: Args) -> CommandResult {
                 return e;
             });
             return m;
+
+
         }).await?;
     }
-    msg.react(&ctx.http, Custom {
-        animated: false,
-        id: Default::default(),
-        name: None
-    });
+    if args.len() == 2 {
+        msg.react(&ctx.http, Unicode("🇦".to_string())).await?;
+    }else if args.len() == 3 {
+        msg.react(&ctx.http, Unicode("🇦".to_string())).await?;
+        msg.react(&ctx.http, Unicode("🇧".to_string())).await?;
+    }else if args.len() == 4 {
+        msg.react(&ctx.http, Unicode("🇦".to_string())).await?;
+        msg.react(&ctx.http, Unicode("🇧".to_string())).await?;
+        msg.react(&ctx.http, Unicode("🇨".to_string())).await?;
+    }else if args.len() == 5{
+        msg.react(&ctx.http, Unicode("🇦".to_string())).await?;
+        msg.react(&ctx.http, Unicode("🇧".to_string())).await?;
+        msg.react(&ctx.http, Unicode("🇨".to_string())).await?;
+        msg.react(&ctx.http, Unicode("🇩".to_string())).await?;
+    }
+
 
 
     Ok(())
