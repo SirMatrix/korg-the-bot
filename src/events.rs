@@ -3,7 +3,7 @@ use serenity::{
     client::{Client, Context, EventHandler},
     model::{channel::Message, gateway::Ready, gateway::Activity},
 };
-use std::sync::Arc;
+
 
 
 pub struct Handler;
@@ -15,5 +15,6 @@ impl EventHandler for Handler {
         println!("{} is connected!", ready.user.name);
 
     }
+
 }
 

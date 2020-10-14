@@ -9,7 +9,8 @@ framework::standard::{StandardFramework, CommandResult,Args},
 use serenity::model::guild::Target::Emoji;
 use serenity::model::channel::{Reaction, ReactionType};
 use serenity::model::channel::ReactionType::{Custom, Unicode};
-
+use std::thread::sleep;
+use std::{thread, time};
 
 const  Guildname: GuildId = GuildId(692401689323503637);
 
@@ -37,7 +38,8 @@ async fn ping(ctx: &Context, msg: &Message) -> CommandResult {
 #[command]
 async fn poll( ctx: &Context, msg: &Message, mut args: Args) -> CommandResult {
 
-
+    let five_millis = time::Duration::from_millis(5);
+    let mut messagestuff =   msg.channel_id.say(&ctx.http, "A poll has been initiated. Please vote using the reactions below this message!").await?;
     let title = args.single::<String>();
     let choice1 = args.single::<String>();
     let choice2 = args.single::<String>();
@@ -81,20 +83,21 @@ async fn poll( ctx: &Context, msg: &Message, mut args: Args) -> CommandResult {
 
         }).await?;
     }
+    thread::sleep(five_millis);
     if args.len() == 2 {
-        msg.react(&ctx.http, Unicode("🇦".to_string())).await?;
+        messagestuff.react(&ctx.http, Unicode("🇦".to_string())).await?;
     }else if args.len() == 3 {
-        msg.react(&ctx.http, Unicode("🇦".to_string())).await?;
-        msg.react(&ctx.http, Unicode("🇧".to_string())).await?;
+        messagestuff.react(&ctx.http, Unicode("🇦".to_string())).await?;
+        messagestuff.react(&ctx.http, Unicode("🇧".to_string())).await?;
     }else if args.len() == 4 {
-        msg.react(&ctx.http, Unicode("🇦".to_string())).await?;
-        msg.react(&ctx.http, Unicode("🇧".to_string())).await?;
-        msg.react(&ctx.http, Unicode("🇨".to_string())).await?;
+        messagestuff.react(&ctx.http, Unicode("🇦".to_string())).await?;
+        messagestuff.react(&ctx.http, Unicode("🇧".to_string())).await?;
+        messagestuff.react(&ctx.http, Unicode("🇨".to_string())).await?;
     }else if args.len() == 5{
-        msg.react(&ctx.http, Unicode("🇦".to_string())).await?;
-        msg.react(&ctx.http, Unicode("🇧".to_string())).await?;
-        msg.react(&ctx.http, Unicode("🇨".to_string())).await?;
-        msg.react(&ctx.http, Unicode("🇩".to_string())).await?;
+        messagestuff.react(&ctx.http, Unicode("🇦".to_string())).await?;
+        messagestuff.react(&ctx.http, Unicode("🇧".to_string())).await?;
+        messagestuff.react(&ctx.http, Unicode("🇨".to_string())).await?;
+        messagestuff.react(&ctx.http, Unicode("🇩".to_string())).await?;
     }
 
 
